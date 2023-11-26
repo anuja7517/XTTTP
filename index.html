@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTTP - XMLHttpRequest</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <style>
         body{
@@ -55,7 +56,8 @@
                   </select>     
                 </div>
                 <div class="form-group text-right">
-                  <button type="submit" class="btn btn-outline-success">Add post</button>
+                   <button type="submit" class="btn btn-outline-primary" id="addBtn">Add post</button>
+                  <button type="button" class="btn btn-outline-success d-none" id="updateBtn">Update post</button>
                 </div>
               </form> 
             </div>
@@ -66,7 +68,7 @@
           
       </div>
     </div>
-  
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
   <script src="./assets/js/app.js"></script>
 </body>
 </html>
