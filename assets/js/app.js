@@ -1,27 +1,21 @@
 const cl = console.log;
 
-const card = document.getElementById("card-post")
-const titleControl = document.getElementById("title")
-const postform = document.getElementById("postForm")
-const bodyControl = document.getElementById("body")
-const userIdControl = document.getElementById("userId")
-const addBtn = document.getElementById("addBtn")
-const updateBtn = document.getElementById("updateBtn")
+let tableTodo = document.getElementById("table-todo")
+let statusFilter = document.getElementById("statusFilter")
+let todoBody = document.getElementById("todoBody")
+let all = document.getElementById("all")
+let completed = document.getElementById("completed")
+let inComplete = document.getElementById("inComplete")
+
+let todoUrl = `https://jsonplaceholder.typicode.com/todos`;
+
+let todoArr = []
 
 
-let baseUrl = `https://jsonplaceholder.typicode.com`
-
-let postUrl = `${baseUrl}/posts`
-
-let postArr = []
-// config 
-
-
-
-
-const getHandle = () => {
+const genericFun = (methodName, apiUrl) =>{
     let xhr = new XMLHttpRequest();
 
+<<<<<<< HEAD
      xhr.open("GET", postUrl)
      
      xhr.send()
@@ -143,83 +137,56 @@ const onClickEdit = (eve) => {
     let xhr = new XMLHttpRequest();
 
     xhr.open("GET", getUrl, true) // 1} method name 2} url 3} ascronous behaviour handler
+=======
+    xhr.open(methodName, apiUrl)
+>>>>>>> 6b49d9d5878001ec22ca03f82f9b6e80ab69a3e1
 
     xhr.send()
 
     xhr.onload = function () {
-        cl(xhr.response)
-        if(xhr.status === 200){
-            let newObj = JSON.parse(xhr.response)
+        if(xhr.status >= 200 || xhr.status <= 299 && xhr.readyState === 4){
+            cl(xhr.response)
 
-            titleControl.value = newObj.title,
-            bodyControl.value = newObj.body,
-            userIdControl.value = newObj.userId
-
-            addBtn.classList.add("d-none")
-            updateBtn.classList.remove("d-none")           
+            if(methodName === "GET"){
+                 todoArr = JSON.parse(xhr.response)
+                templating(todoArr)
+            }
         }
     }
 }
 
-const onDeleteClick = eve => {
-    // cl(eve)
-    let deleteId = eve.closest(".col-md-6").id
 
-    let deleteUrl = `${postUrl}/${deleteId}`
+genericFun("GET", todoUrl)
 
-    let xhr = new XMLHttpRequest();
-
-    xhr.open("DELETE", deleteUrl)
-
-    xhr.send()
-
-    xhr.onload = function (){
-        if(xhr.status === 200){
-
-                  Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success",
-                        timer : 1500
-                      });
-                      document.getElementById(deleteId).remove();
-                    }
-                  });
-
-    }
-}
-}
 
 const templating = (arr) => {
     let result = ``;
-    arr.forEach(post => {
-        result += `<div class="col-md-6 offset-md-3" id="${post.id}">
-                    <div class="card mb-5">
-                      <div class="card-header">
-                          <h2>${post.title}</h2>
-                      </div>
-                      <div class="card-body">
-                          <p>${post.body}</p>
-                      </div>
-                      <div class="card-footer d-flex justify-content-between">
-                          <Button class="btn btn-outline-primary" onClick="onClickEdit(this)">Edit</Button>
-                          <Button class="btn btn-outline-danger" onClick="onDeleteClick(this)">Delete</Button>
-                      </div>
-                    </div>
-                   </div>
-        
-                     `
+    arr.forEach(ele => {
+        result += `<tr>
+                    <td>${ele.userId}</td>
+                    <td>${ele.title}</td>
+                    <td>${ele.completed ? 'Completed' : 'Incomplete'}</td>
+                  </tr> `
     });
-    card.innerHTML = result;
+
+    todoBody.innerHTML = result;
 }
 
+
+function filterTodos(status) {
+    if (status === 'all') {
+    templating(todoArr)
+    } else {
+      const filteredTodos = todoArr.filter(todo => {
+        return todo.completed === (status === 'true');
+      });
+      templating(filteredTodos)
+    }
+  }
+
+const onChangeBtn = (eve) => {
+    filterTodos(eve.target.value)
+}
+
+
+  statusFilter.addEventListener("change", onChangeBtn)
