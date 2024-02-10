@@ -39,7 +39,6 @@ const getHandle = () => {
 }
 getHandle()
 
-
 const createPost = (ele) => {
     let xhr1 = new XMLHttpRequest()
 
@@ -104,7 +103,6 @@ const onUpdatePost = () => {
                return post.id == updateId
            })
            
-          
            postArr[getIndexOf].title = getUpdateObj.title,
            postArr[getIndexOf].body = getUpdateObj.body,
            postArr[getIndexOf].userId = getUpdateObj.userId
@@ -114,8 +112,6 @@ const onUpdatePost = () => {
 
            templating(postArr)
            postform.reset()
-
-
 
            Swal.fire({
             position: "center",
@@ -127,9 +123,7 @@ const onUpdatePost = () => {
           
         }else{
             cl(`something went wrong`)
-        }
-      
-        
+        }  
     }
 }
 
